@@ -9,7 +9,7 @@ using namespace std;
 
 class Player{
     public:
-        Player():name("Unkown"),hp(20),attackPower(5),mp(100){}//預設數值
+        Player():name("Unkown"),hp(100),attackPower(5),mp(100){}//預設數值
         string getname(){return name;}
         void sethp(double h){hp = h;}
         void setpower(double p){attackPower = p;}
