@@ -2,24 +2,22 @@
 #define ITEM_H
 #include <iostream>
 #include <string>
+#include "Player.h"
 
 using namespace std;
 
-const string CONSUMABLE = "consumable";
-const string EQUIPMENT = "equipment";
+const string HEALTH_POINT = "healthPoint";
+const string ATTACK_POWER = "attackPower";
+const string MAGIC_POINT = "magicPoint";
+const string SPEED = "speed";
+
+
 class Item {
     public:
-        Item(string n = "default item", string t = CONSUMABLE, double e = 20.0, int q = 1) 
+        Item(string n = "default item", string t = HEALTH_POINT, double e = 20.0, int q = 1) 
             : name(n), type(t), effectValue(e), quantity(q) {}
-
-        void use() {
-            if (isAvailable()) {
-                cout << "use item【" << name << "】!" << endl;
-                quantity--; 
-            } else {
-                cout << "【" << name << "】not enough!" << endl;
-            }
-        }
+        virtual ~Item() = default;
+        virtual void use(Player playerReference) {cout<<"114514";}
 
         void showInfo() const {
             cout<<"==============================\n"

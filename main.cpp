@@ -4,15 +4,21 @@
 #include "monster.h"
 #include "Player.h"
 #include "skill.h"
+#include "backpack.h"
 
 using std::cout;
 using std::cin;
 using std::string;
 
 bool PlayerFaster(Monster& m,Player& p);
-bool arena(Monster& m,Player& p);
+bool arena(Monster& m,Player& p,Backpack& b);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
+Consumable apple("apple",HEALTH_POINT,15,1);
+Consumable magicWine("magicWine",MAGIC_POINT,20,2);
+Consumable diamond("diamond",ATTACK_POWER,15,1);
+Consumable shit("shit",HEALTH_POINT,-20,1);
+
 Skill fireball("FireBall",25,20);
 Skill blackflame("BlackFlame",30,25);
 Skill lighting("Lighting",20,20);
@@ -23,6 +29,7 @@ Monster DireWolf("DireWolf",50,20,20,110);
 int main(){
     Monster m;
     Player p;
+    Backpack b;
     string n;
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
@@ -33,6 +40,10 @@ int main(){
     p.setname(n);
     cout<<"【System】: Welcome "<<p.getName()<<endl;
 
+    b.addInventory(new Consumable(apple));
+    b.addInventory(new Consumable(magicWine));
+    b.addInventory(new Consumable(diamond));
+    b.addInventory(new Consumable(shit));
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
     cout<<"3"<<endl;
@@ -42,7 +53,7 @@ int main(){
     cout<<"1"<<endl;
     cout << "==================== [ STAGE 1 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    if (!arena(m,p)){
+    if (!arena(m,p,b)){
         cout<<"Game Over";
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -50,7 +61,7 @@ int main(){
 
     cout << "==================== [ STAGE 2 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    if (!arena(m,p)){
+    if (!arena(m,p,b)){
         cout<<"Game Over";
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -90,12 +101,14 @@ bool MonsterAttack(Monster& m,Player& p,double damage){
 }
 
 
-bool arena(Monster& m,Player& p){
+bool arena(Monster& m,Player& p,Backpack& b){
     int round = 1;
     while (p.isAlive()&&m.isAlive())
     {
         int choice;
         int skillchoice;
+        int itemchoice;
+        int checkItemOrUseItem;
         cout <<round<<" Round start!"<<endl;
         p.showInfo();
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -197,6 +210,27 @@ bool arena(Monster& m,Player& p){
             
                 break;
         case 3:
+            do
+            {
+                b.showBackpackInfo();
+                cout<<"choose item that you want to check/use :";
+                cin>>itemchoice;
+                cout<<"check item's info (0)/use item(1) :";
+                cin>>checkItemOrUseItem;
+                switch (checkItemOrUseItem){
+                case 0:
+                    b.getSpecifyItem(itemchoice-1).showInfo();
+                    break;
+                case 1:
+                    b.getSpecifyItem(itemchoice-1).use(p);
+                    b.removeInventory();
+                    break;
+                default:
+                    break;
+                }
+            } while (checkItemOrUseItem == 0);
+
+
             break;
         }
 

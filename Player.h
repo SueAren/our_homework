@@ -16,6 +16,7 @@ class Player{
         void setpower(double p){attackPower = p;}
         void setmp(double m){mp = m;}
         void setname(string n){name = n;}
+        void setspeed(int s){speed = s;}
 
         double gethp()const{return hp;}
         double getattackpower()const{return attackPower;}
