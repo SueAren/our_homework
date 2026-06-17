@@ -7,7 +7,7 @@ using namespace std;
 
 class Monster {
     public:
-        Monster(string n = "slime", double h = 50.0, double a = 50.0, int r = 15,int s = 80) 
+        Monster(string n = "slime", double h = 50.0, double a = 10.0, int r = 15,int s = 80) 
             : name(n), hp(h), attackPower(a), rewardGold(r),speed(s) {}
 
         double getattackpower() const {

@@ -10,19 +10,56 @@ using std::cin;
 using std::string;
 
 bool PlayerFaster(Monster& m,Player& p);
-void arena(Monster& m,Player& p);
+bool arena(Monster& m,Player& p);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
-Skill fireball("fireball",25,20);
-Skill blackflame("blackflame",30,25);
-Skill lighting("lighting",20,20);
+Skill fireball("FireBall",25,20);
+Skill blackflame("BlackFlame",30,25);
+Skill lighting("Lighting",20,20);
+// 名稱、血量、傷害、金幣、速度
+Monster Zombie("Zombie",100,15,10,70);
+Monster DireWolf("DireWolf",50,20,20,110);
 
 int main(){
     Monster m;
     Player p;
+    string n;
+    cout << "=========================================================" << endl;
+    cout << "【System】: Link Start !!!" << endl;
+    cout << "=========================================================" << endl;
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    cout <<"Enter player name: ";
+    cin >> n;
+    p.setname(n);
+    cout<<"【System】: Welcome "<<p.getName()<<endl;
 
-    arena(m,p);
 
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    cout<<"3"<<endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    cout<<"2"<<endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    cout<<"1"<<endl;
+    cout << "==================== [ STAGE 1 ] ====================" << endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    if (!arena(m,p)){
+        cout<<"Game Over";
+    }else{
+        cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
+    }
+
+    cout << "==================== [ STAGE 2 ] ====================" << endl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    if (!arena(m,p)){
+        cout<<"Game Over";
+    }else{
+        cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
+    }
+
+
+    
+    
+    
     return 0;
 }
 
@@ -53,7 +90,7 @@ bool MonsterAttack(Monster& m,Player& p,double damage){
 }
 
 
-void arena(Monster& m,Player& p){
+bool arena(Monster& m,Player& p){
     int round = 1;
     while (p.isAlive()&&m.isAlive())
     {
@@ -70,14 +107,22 @@ void arena(Monster& m,Player& p){
         {
         case 1:
             if (PlayerFaster(m,p)){
-                PlayerAttack(m,p,p.getattackpower());
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                MonsterAttack(m,p,m.getattackpower());
-            }else{
-                MonsterAttack(m,p,m.getattackpower());
-                std::this_thread::sleep_for(std::chrono::seconds(1));
-                PlayerAttack(m,p,p.getattackpower());
-            }
+                    if(PlayerAttack(m,p,p.getattackpower())){
+                        break;
+                    }
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
+                    if(MonsterAttack(m,p,m.getattackpower())){
+                        return false;
+                    }
+                }else{
+                    if(MonsterAttack(m,p,m.getattackpower())){
+                        return false;
+                    }
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
+                    if(PlayerAttack(m,p,p.getattackpower())){
+                        break;
+                    }
+                }
             
             break;
         case 2:
@@ -99,11 +144,11 @@ void arena(Monster& m,Player& p){
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                 }else{
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(PlayerAttack(m,p,fireball.getDamage())){
@@ -117,11 +162,11 @@ void arena(Monster& m,Player& p){
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                 }else{
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(PlayerAttack(m,p,blackflame.getDamage())){
@@ -135,11 +180,11 @@ void arena(Monster& m,Player& p){
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                 }else{
                     if(MonsterAttack(m,p,m.getattackpower())){
-                        break;
+                        return false;
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(PlayerAttack(m,p,lighting.getDamage())){
@@ -157,9 +202,9 @@ void arena(Monster& m,Player& p){
                 }
 
         round++;
-        cout <<"====================="<<endl;
-    
     }
+
+    return (p.isAlive()&&!m.isAlive());
 }
 
 bool PlayerFaster(Monster& m,Player& p){

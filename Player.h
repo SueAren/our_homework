@@ -15,6 +15,7 @@ class Player{
         void sethp(double h){hp = h;}
         void setpower(double p){attackPower = p;}
         void setmp(double m){mp = m;}
+        void setname(string n){name = n;}
 
         double gethp()const{return hp;}
         double getattackpower()const{return attackPower;}
