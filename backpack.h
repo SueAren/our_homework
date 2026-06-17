@@ -1,6 +1,8 @@
 #ifndef BACKPACK_H
 #define BACKPACK_H
+#include <iostream>
 #include <vector>
+#include <algorithm>
 
 
 #include "item.h"
@@ -20,8 +22,16 @@ class Backpack{
 
 
         void addgold(int g){gold += g;}
+
         void addInventory(Item goods){
             inventory.push_back(goods);
+        }
+        void removeInventory(){
+            inventory.erase(
+                remove_if(inventory.begin(),inventory.end(),
+                [](const Item& item){return !item.isAvailable();
+                }),
+                inventory.end());
         }
 
 

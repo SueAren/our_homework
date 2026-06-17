@@ -4,9 +4,12 @@
 #include <string>
 
 using namespace std;
+
+const string CONSUMABLE = "consumable";
+const string EQUIPMENT = "equipment";
 class Item {
     public:
-        Item(string n = "default item", string t = "HP", double e = 20.0, int q = 1) 
+        Item(string n = "default item", string t = CONSUMABLE, double e = 20.0, int q = 1) 
             : name(n), type(t), effectValue(e), quantity(q) {}
 
         void use() {
@@ -19,13 +22,17 @@ class Item {
         }
 
         void showInfo() const {
-            cout << "item: " << name << " | type: " << type 
-                 << " | effect: " << effectValue << " | quantity: " << quantity << endl;
+            cout<<"==============================\n"
+                <<"|item: " << name <<endl
+                <<"|type: " << type <<endl 
+                <<"|effect: " << effectValue <<endl
+                <<"|quantity: " << quantity << endl
+                <<"==============================\n";
         }
 
         bool isAvailable() const { return quantity > 0; }
         double getEffectValue() const { return effectValue; }
-        string getName() const { return name; }
+        string getName() const { return name;}
 
     protected:
         string name;
