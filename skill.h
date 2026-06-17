@@ -7,15 +7,15 @@ using namespace std;
 
 class Skill {
     public:
-        Skill(string n = "預設技能", double d = 10.0, double m = 5.0) 
+        Skill(string n = "default skill", double d = 10.0, double m = 5.0) 
             : name(n), damage(d), mpCost(m) {}
 
         void use() const {
-            cout << "施放了技能【" << name << "】！消耗了 " << mpCost << " 點魔力。" << endl;
+            cout << "use skill【" << name << "】！cost " << mpCost << " mp" << endl;
         }
 
         void showInfo() const {
-            cout << "技能名稱: " << name << " | 傷害: " << damage << " | 魔力消耗: " << mpCost << endl;
+            cout << "skill: " << name << " | damage: " << damage << " | mpcost: " << mpCost << endl;
         }
 
         double getDamage() const { return damage; }
