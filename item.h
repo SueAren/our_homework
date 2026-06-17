@@ -4,7 +4,6 @@
 #include <string>
 
 using namespace std;
-
 class Item {
     public:
         Item(string n = "default item", string t = "HP", double e = 20.0, int q = 1) 
