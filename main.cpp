@@ -197,9 +197,8 @@ bool arena(Monster& m,Player& p){
             
                 break;
         case 3:
-            
-                break;
-                }
+            break;
+        }
 
         round++;
     }
