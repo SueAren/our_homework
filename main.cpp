@@ -7,6 +7,7 @@
 #include "skill.h"
 #include "backpack.h"
 #include "character.h"
+#include "achievement.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ bool PlayerFaster(Monster& m,Player& p);
 bool arena(Monster& m,Player& p,Backpack& b);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
+
+//開啟ascii圖片
 ifstream dragonImage("images\\dragon.txt");
 ifstream titleImage("images\\title.txt");
 ifstream championImage("images\\champion.txt");
@@ -26,15 +29,23 @@ ifstream skeletonImage("images\\skeleton.txt");
 ifstream slimeImage("images\\slime.txt");
 ifstream zombieImage("images\\zombie.txt");
 
+//開啟前後故事
 ifstream openingStory("story\\opening.txt");
 ifstream winStory("story\\win.txt");
 ifstream loseStory("story\\lose.txt");
 
+//定義消耗品與裝備
 Consumable apple("apple",HEALTH_POINT,15,1);
 Consumable magicWine("magicWine",MAGIC_POINT,20,2);
 Equipment diamond_sword("diamond_sword",ATTACK_POWER,15,1);
-Consumable poison("poison",HEALTH_POINT,-20,1);
+Consumable cake("cake",HEALTH_POINT,-20,1);
 Equipment UltimateInvinciblePowerBoots("Ultimate Invincible Power Boots",SPEED,50,1);
+
+Achievement startAchi("The beginning of a legend");
+Achievement cakeAchi("The cake is a lie");
+Achievement winAchi("The End?");
+Achievement fastAchi("Faster and faster");
+Achievement fireballAchi("Burning with desire");
 
 //名稱、傷害、mp、cd
 Skill fireball("FireBall",25,20,3);
@@ -60,6 +71,7 @@ int main(){
     cout <<"Enter player name: ";
     cin >> n;
     cout<<"【System】: Welcome "<< n <<endl;
+    startAchi.unlockAchievement();
 
     Player* p = createPlayer(n);
     p->setname(n);
@@ -67,7 +79,7 @@ int main(){
     b.addInventory(new Consumable(apple));
     b.addInventory(new Consumable(magicWine));
     b.addInventory(new Equipment(diamond_sword));
-    b.addInventory(new Consumable(poison));
+    b.addInventory(new Consumable(cake));
     b.addInventory(new Equipment(UltimateInvinciblePowerBoots));
 
     cout<<"3"<<endl;
@@ -111,6 +123,7 @@ int main(){
         cout << "==================== [ Youwin !!! ] ====================" << endl;
         PrintOutImage(championImage);
         PrintOutStory(winStory);
+        winAchi.unlockAchievement();
     }
 
   
@@ -248,6 +261,7 @@ bool arena(Monster& m,Player& p,Backpack& b){
                 p.costmp(20);
                 if (PlayerFaster(m,p)){
                     if(PlayerAttack(m,p,fireball.getDamage())){
+                        fireballAchi.unlockAchievement();
                         break;
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -260,6 +274,7 @@ bool arena(Monster& m,Player& p,Backpack& b){
                     }
                     std::this_thread::sleep_for(std::chrono::seconds(1));
                     if(PlayerAttack(m,p,fireball.getDamage())){
+                        fireballAchi.unlockAchievement();
                         break;
                     }
                 }
@@ -341,6 +356,9 @@ bool arena(Monster& m,Player& p,Backpack& b){
                     break;
                 case 1:
                     b.getSpecifyItem(itemchoice-1).use(p);
+                    if (b.getSpecifyItem(itemchoice-1).getName() == "cake"){
+                        cakeAchi.unlockAchievement();
+                    }
                     b.removeInventory();
                     break;
                 default:
@@ -370,5 +388,8 @@ bool arena(Monster& m,Player& p,Backpack& b){
 }
 
 bool PlayerFaster(Monster& m,Player& p){
+    if (m.getspeed()<p.getspeed() && m.getName() == "DireWolf"){
+        fastAchi.unlockAchievement();
+    }
     return(m.getspeed()<p.getspeed());
 }
