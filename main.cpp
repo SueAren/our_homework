@@ -18,11 +18,18 @@ bool arena(Monster& m,Player& p,Backpack& b);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
 ifstream dragonImage("images\\dragon.txt");
+ifstream titleImage("images\\title.txt");
+ifstream championImage("images\\champion.txt");
+ifstream direwolfImage("images\\direwolf.txt");
+ifstream skeletonImage("images\\skeleton.txt");
+ifstream slimeImage("images\\slime.txt");
+ifstream zombieImage("images\\zombie.txt");
 
 Consumable apple("apple",HEALTH_POINT,15,1);
 Consumable magicWine("magicWine",MAGIC_POINT,20,2);
-Consumable diamond("diamond",ATTACK_POWER,15,1);
-Consumable shit("shit",HEALTH_POINT,-20,1);
+Equipment diamond_sword("diamond_sword",ATTACK_POWER,15,1);
+Consumable poison("poison",HEALTH_POINT,-20,1);
+Equipment UltimateInvinciblePowerBoots("Ultimate Invincible Power Boots",SPEED,50,1);
 
 //名稱、傷害、mp、cd
 Skill fireball("FireBall",25,20,3);
@@ -38,6 +45,8 @@ int main(){
     Backpack b;
     string n;
     PrintOutImage(dragonImage);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    PrintOutImage(titleImage);
 
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
@@ -52,8 +61,9 @@ int main(){
 
     b.addInventory(new Consumable(apple));
     b.addInventory(new Consumable(magicWine));
-    b.addInventory(new Consumable(diamond));
-    b.addInventory(new Consumable(shit));
+    b.addInventory(new Equipment(diamond_sword));
+    b.addInventory(new Consumable(poison));
+    b.addInventory(new Equipment(UltimateInvinciblePowerBoots));
 
     std::this_thread::sleep_for(std::chrono::seconds(3));
     cout<<"3"<<endl;
@@ -63,26 +73,36 @@ int main(){
     cout<<"1"<<endl;
     cout << "==================== [ STAGE 1 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
+    PrintOutImage(slimeImage);
     if (!arena(Slime,*p,b)){
-        cout<<"Game Over";
+        cout<<"Game Over"<<endl;
+        PrintOutImage(skeletonImage);
+        return 0;
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
     }
 
     cout << "==================== [ STAGE 2 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
+    PrintOutImage(zombieImage);
     if (!arena(Zombie,*p,b)){
-        cout<<"Game Over";
+        cout<<"Game Over"<<endl;
+        PrintOutImage(skeletonImage);
+        return 0;
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
     }
 
     cout << "==================== [ STAGE 3 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
+    PrintOutImage(direwolfImage);
     if (!arena(DireWolf,*p,b)){
-        cout<<"Game Over";
+        cout<<"Game Over"<<endl;
+        PrintOutImage(skeletonImage);
+        return 0;
     }else{
-        cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
+        cout << "==================== [ Youwin !!! ] ====================" << endl;
+        PrintOutImage(championImage);
     }
 
   
@@ -94,6 +114,7 @@ void PrintOutImage(ifstream &image){
     string content;
     if(image.is_open()){
         while(getline(image,content)){
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
             cout<< content <<endl;
         }
     }

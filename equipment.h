@@ -16,19 +16,19 @@ class Equipment : public Item {
         void use(Player& playerReference) override{
             if(type == HEALTH_POINT){
                 playerReference.sethp(playerReference.gethp()+getEffectValue());
-                cout<<playerReference.getName()<<" uses "<<getName()<<"!!!!!"<<" and recover for "<<getEffectValue()<<" hp!!!"<<endl;
+                cout<<playerReference.getName()<<" equips "<<getName()<<"!!!!!"<<" and recover for "<<getEffectValue()<<" hp!!!"<<endl;
             }
             else if(type == ATTACK_POWER){
                 playerReference.setpower(playerReference.getattackpower()+getEffectValue());
-                cout<<playerReference.getName()<<" uses "<<getName()<<"!!!!!"<<" and strengthen for "<<getEffectValue()<<" atk!!!"<<endl;
+                cout<<playerReference.getName()<<" equips "<<getName()<<"!!!!!"<<" and strengthen for "<<getEffectValue()<<" atk!!!"<<endl;
             }
             else if (type == MAGIC_POINT){
                 playerReference.setmp(playerReference.getmp()+getEffectValue());
-                cout<<playerReference.getName()<<" uses "<<getName()<<"!!!!!"<<" and recover for "<<getEffectValue()<<" mp!!!"<<endl;
+                cout<<playerReference.getName()<<" equips "<<getName()<<"!!!!!"<<" and recover for "<<getEffectValue()<<" mp!!!"<<endl;
             }
             else if (type == SPEED){
                 playerReference.setspeed(playerReference.getspeed()+getEffectValue());
-                cout<<playerReference.getName()<<" uses "<<getName()<<"!!!!!"<<" and strengthen for "<<getEffectValue()<<" speed!!!"<<endl;
+                cout<<playerReference.getName()<<" equips "<<getName()<<"!!!!!"<<" and strengthen for "<<getEffectValue()<<" speed!!!"<<endl;
             }
             quantity --;
         }
