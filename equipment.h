@@ -1,5 +1,5 @@
-#ifndef CONSUMABLE_H
-#define CONSUMABLE_H
+#ifndef EQUIPMENT_H
+#define EQUIPMENT_H
 
 #include <iostream>
 #include <string>
@@ -7,12 +7,12 @@
 
 using std::cout;
 
-class Consumable : public Item {
+class Equipment : public Item {
     protected:
 
     public:
-        Consumable(string n = "default item", string t = HEALTH_POINT, double e = 20.0, int q = 1):Item(n,t,e,q){}
-        ~Consumable () = default;
+        Equipment(string n = "default item", string t = HEALTH_POINT, double e = 20.0, int q = 1):Item(n,t,e,q){}
+        ~Equipment () = default;
         void use(Player& playerReference) override{
             if(type == HEALTH_POINT){
                 playerReference.sethp(playerReference.gethp()+getEffectValue());

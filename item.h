@@ -17,7 +17,7 @@ class Item {
         Item(string n = "default item", string t = HEALTH_POINT, double e = 20.0, int q = 1) 
             : name(n), type(t), effectValue(e), quantity(q) {}
         virtual ~Item() = default;
-        virtual void use(Player playerReference) {cout<<"114514";}
+        virtual void use(Player& playerReference) {cout<<"114514";}
 
         void showInfo() const {
             cout<<"==============================\n"

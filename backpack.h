@@ -6,7 +6,7 @@
 
 
 #include "consumable.h"
-
+#include "equipment.h"
 
 using std::cout;
 using std::vector;

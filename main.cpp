@@ -6,9 +6,7 @@
 #include "skill.h"
 #include "backpack.h"
 
-using std::cout;
-using std::cin;
-using std::string;
+using namespace std;
 
 bool PlayerFaster(Monster& m,Player& p);
 bool arena(Monster& m,Player& p,Backpack& b);
@@ -210,11 +208,16 @@ bool arena(Monster& m,Player& p,Backpack& b){
             
                 break;
         case 3:
+            bool backToActChoice = false;
             do
             {
                 b.showBackpackInfo();
-                cout<<"choose item that you want to check/use :";
+                cout<<"choose item that you want to check/use (0 for return):";
                 cin>>itemchoice;
+                if (itemchoice == 0){
+                    backToActChoice = true;
+                    break;
+                }
                 cout<<"check item's info (0)/use item(1) :";
                 cin>>checkItemOrUseItem;
                 switch (checkItemOrUseItem){
@@ -228,8 +231,15 @@ bool arena(Monster& m,Player& p,Backpack& b){
                 default:
                     break;
                 }
+                std::this_thread::sleep_for(std::chrono::seconds(2));
             } while (checkItemOrUseItem == 0);
+            if(backToActChoice){
+                continue;
+            }
 
+            if(MonsterAttack(m,p,m.getattackpower())){
+                return false;
+            }
 
             break;
         }
