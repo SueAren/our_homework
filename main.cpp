@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <fstream>
 #include "item.h"
 #include "monster.h"
 #include "Player.h"
@@ -8,10 +9,13 @@
 
 using namespace std;
 
+void PrintOutImage(ifstream &image);
 bool PlayerFaster(Monster& m,Player& p);
 bool arena(Monster& m,Player& p,Backpack& b);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
+ifstream dragonImage("images\\dragon.txt");
+
 Consumable apple("apple",HEALTH_POINT,15,1);
 Consumable magicWine("magicWine",MAGIC_POINT,20,2);
 Consumable diamond("diamond",ATTACK_POWER,15,1);
@@ -29,6 +33,8 @@ int main(){
     Player p;
     Backpack b;
     string n;
+    PrintOutImage(dragonImage);
+
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
     cout << "=========================================================" << endl;
@@ -70,6 +76,16 @@ int main(){
     
     
     return 0;
+}
+
+void PrintOutImage(ifstream &image){
+    string content;
+    if(image.is_open()){
+        while(getline(image,content)){
+            cout<< content <<endl;
+        }
+    }
+
 }
 
 bool PlayerAttack(Monster& m,Player& p,double damage){
