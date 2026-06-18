@@ -36,6 +36,8 @@ class Player{
         bool isAlive() const { return hp > 0; }
 
         void addgold(int g){gold += g;}
+        virtual void addmp(){mp +=10;}
+        void costmp(int c){mp -= c;}
         
 
     protected:

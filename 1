@@ -1,29 +1,21 @@
 #include <iostream>
 #include <thread>
-#include <fstream>
 #include "item.h"
 #include "monster.h"
 #include "Player.h"
 #include "skill.h"
-#include "backpack.h"
 #include "character.h"
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::string;
+using std::endl;
 
-Player* createPlayer(string n);
-
-void PrintOutImage(ifstream &image);
 bool PlayerFaster(Monster& m,Player& p);
-bool arena(Monster& m,Player& p,Backpack& b);
+bool arena(Monster& m,Player& p);
 bool PlayerAttack(Monster& m,Player& p,double damage);
 bool MonsterAttack(Monster& m,Player& p,double damage);
-ifstream dragonImage("images\\dragon.txt");
-
-Consumable apple("apple",HEALTH_POINT,15,1);
-Consumable magicWine("magicWine",MAGIC_POINT,20,2);
-Consumable diamond("diamond",ATTACK_POWER,15,1);
-Consumable shit("shit",HEALTH_POINT,-20,1);
-
+Player* createPlayer(string n);
 //名稱、傷害、mp、cd
 Skill fireball("FireBall",25,20,3);
 Skill blackflame("BlackFlame",30,25,4);
@@ -33,29 +25,23 @@ Monster Zombie("Zombie",100,15,10,70);
 Monster DireWolf("DireWolf",50,20,20,110);
 Monster Slime;
 
+
+
+
 int main(){
-
-    Backpack b;
     string n;
-    PrintOutImage(dragonImage);
-
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
     cout << "=========================================================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(3));
     cout <<"Enter player name: ";
-    cin >> n;
+    getline(cin,n);
     cout<<"【System】: Welcome "<< n <<endl;
 
     Player* p = createPlayer(n);
     p->setname(n);
 
-    b.addInventory(new Consumable(apple));
-    b.addInventory(new Consumable(magicWine));
-    b.addInventory(new Consumable(diamond));
-    b.addInventory(new Consumable(shit));
-
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     cout<<"3"<<endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     cout<<"2"<<endl;
@@ -63,7 +49,7 @@ int main(){
     cout<<"1"<<endl;
     cout << "==================== [ STAGE 1 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    if (!arena(Slime,*p,b)){
+    if (!arena(Slime,*p)){
         cout<<"Game Over";
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -71,7 +57,7 @@ int main(){
 
     cout << "==================== [ STAGE 2 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    if (!arena(Zombie,*p,b)){
+    if (!arena(Zombie,*p)){
         cout<<"Game Over";
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -79,25 +65,17 @@ int main(){
 
     cout << "==================== [ STAGE 3 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    if (!arena(DireWolf,*p,b)){
+    if (!arena(DireWolf,*p)){
         cout<<"Game Over";
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
     }
 
-  
+
+    
+    
     delete p;
     return 0;
-}
-
-void PrintOutImage(ifstream &image){
-    string content;
-    if(image.is_open()){
-        while(getline(image,content)){
-            cout<< content <<endl;
-        }
-    }
-
 }
 
 Player* createPlayer(string n){
@@ -148,21 +126,21 @@ bool MonsterAttack(Monster& m,Player& p,double damage){
 }
 
 
-bool arena(Monster& m,Player& p,Backpack& b){
+bool arena(Monster& m,Player& p){
     int round = 1;
-    while (p.isAlive()&&m.isAlive())
+    while (p.isAlive()&& m.isAlive())
     {
         int choice;
         int skillchoice;
-        int itemchoice;
-        int checkItemOrUseItem;
         cout <<round<<" Round start!"<<endl;
         p.showInfo();
         std::this_thread::sleep_for(std::chrono::seconds(1));
         m.showInfo();
         cout <<"====================="<<endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         cout <<"1. Normal Attack \n" <<"2. Skill\n"<<"3. Use Item\n"<<endl;
         cin >> choice;
+        cout<<"\n";
         switch (choice)
         {
         case 1:
@@ -195,6 +173,7 @@ bool arena(Monster& m,Player& p,Backpack& b){
             lighting.showInfo();
             cout<<"0.RETURN!"<<endl;
             cout <<"====================="<<endl;
+            
 
             cin >> skillchoice;
             switch (skillchoice)
@@ -284,42 +263,10 @@ bool arena(Monster& m,Player& p,Backpack& b){
             
                 break;
         case 3:
-            bool backToActChoice = false;
-            do
-            {
-                b.showBackpackInfo();
-                cout<<"choose item that you want to check/use (0 for return):";
-                cin>>itemchoice;
-                if (itemchoice == 0){
-                    backToActChoice = true;
-                    break;
+            
+                break;
                 }
-                cout<<"check item's info (0)/use item(1) :";
-                cin>>checkItemOrUseItem;
-                switch (checkItemOrUseItem){
-                case 0:
-                    b.getSpecifyItem(itemchoice-1).showInfo();
-                    break;
-                case 1:
-                    b.getSpecifyItem(itemchoice-1).use(p);
-                    b.removeInventory();
-                    break;
-                default:
-                    break;
-                }
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-            } while (checkItemOrUseItem == 0);
-            if(backToActChoice){
-                continue;
-            }
-
-            if(MonsterAttack(m,p,m.getattackpower())){
-                return false;
-            }
-
-            break;
-        }
-
+        cout <<"====================="<<endl;
         round++;
         p.addmp();
         fireball.countcooldown();
@@ -329,6 +276,7 @@ bool arena(Monster& m,Player& p,Backpack& b){
 
     return (p.isAlive()&&!m.isAlive());
 }
+
 
 bool PlayerFaster(Monster& m,Player& p){
     return(m.getspeed()<p.getspeed());
