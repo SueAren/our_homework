@@ -13,6 +13,7 @@ using namespace std;
 Player* createPlayer(string n);
 
 void PrintOutImage(ifstream &image);
+void PrintOutStory(ifstream &story);
 bool PlayerFaster(Monster& m,Player& p);
 bool arena(Monster& m,Player& p,Backpack& b);
 bool PlayerAttack(Monster& m,Player& p,double damage);
@@ -24,6 +25,10 @@ ifstream direwolfImage("images\\direwolf.txt");
 ifstream skeletonImage("images\\skeleton.txt");
 ifstream slimeImage("images\\slime.txt");
 ifstream zombieImage("images\\zombie.txt");
+
+ifstream openingStory("story\\opening.txt");
+ifstream winStory("story\\win.txt");
+ifstream loseStory("story\\lose.txt");
 
 Consumable apple("apple",HEALTH_POINT,15,1);
 Consumable magicWine("magicWine",MAGIC_POINT,20,2);
@@ -47,7 +52,7 @@ int main(){
     PrintOutImage(dragonImage);
     std::this_thread::sleep_for(std::chrono::seconds(1));
     PrintOutImage(titleImage);
-
+    PrintOutStory(openingStory);
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
     cout << "=========================================================" << endl;
@@ -65,7 +70,6 @@ int main(){
     b.addInventory(new Consumable(poison));
     b.addInventory(new Equipment(UltimateInvinciblePowerBoots));
 
-    std::this_thread::sleep_for(std::chrono::seconds(3));
     cout<<"3"<<endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     cout<<"2"<<endl;
@@ -77,6 +81,7 @@ int main(){
     if (!arena(Slime,*p,b)){
         cout<<"Game Over"<<endl;
         PrintOutImage(skeletonImage);
+        PrintOutStory(loseStory);
         return 0;
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -88,6 +93,7 @@ int main(){
     if (!arena(Zombie,*p,b)){
         cout<<"Game Over"<<endl;
         PrintOutImage(skeletonImage);
+        PrintOutStory(loseStory);
         return 0;
     }else{
         cout << "==================== [ STAGE CLEAR !!! ] ====================" << endl;
@@ -99,10 +105,12 @@ int main(){
     if (!arena(DireWolf,*p,b)){
         cout<<"Game Over"<<endl;
         PrintOutImage(skeletonImage);
+        PrintOutStory(loseStory);
         return 0;
     }else{
         cout << "==================== [ Youwin !!! ] ====================" << endl;
         PrintOutImage(championImage);
+        PrintOutStory(winStory);
     }
 
   
@@ -115,6 +123,16 @@ void PrintOutImage(ifstream &image){
     if(image.is_open()){
         while(getline(image,content)){
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
+            cout<< content <<endl;
+        }
+    }
+
+}
+void PrintOutStory(ifstream &story){
+    string content;
+    if(story.is_open()){
+        while(getline(story,content)){
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
             cout<< content <<endl;
         }
     }
