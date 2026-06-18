@@ -26,7 +26,7 @@ class Monster {
         bool isAlive() const { return hp > 0; }
 
         void showInfo() const {
-            cout << "Enemy Name: " << name << " \t| Hp: " << hp << " \t| Atk: " << attackPower << " \t| Spd: " << speed << endl;
+            cout << "Enemy Name: " << name << " \t\t\t\t| Hp: " << hp << " \t| Atk: " << attackPower << " \t| Spd: " << speed << endl;
         }
         
         string getName() const { return name; }

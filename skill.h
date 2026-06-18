@@ -11,7 +11,7 @@ class Skill {
             : name(n), damage(d), mpCost(m), cooldown(c) {}
 
         void use() const {
-            cout << "use skill【" << name << "】！cost " << mpCost << " mp" << endl;
+            cout << " use skill【" << name << "】！cost " << mpCost << " mp" << " |Cause "<<damage<<" damage\n"<<endl;
         }
 
         void showInfo() const {

@@ -64,13 +64,14 @@ int main(){
     std::this_thread::sleep_for(std::chrono::seconds(1));
     PrintOutImage(titleImage);
     PrintOutStory(openingStory);
+    std::this_thread::sleep_for(std::chrono::seconds(2));
     cout << "=========================================================" << endl;
     cout << "【System】: Link Start !!!" << endl;
     cout << "=========================================================" << endl;
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(2));
     cout <<"Enter player name: ";
     cin >> n;
-    cout<<"【System】: Welcome "<< n <<endl;
+    cout<<"【System】: Welcome "<< n <<"\n"<<endl;
     startAchi.unlockAchievement();
 
     Player* p = createPlayer(n);
@@ -82,11 +83,11 @@ int main(){
     b.addInventory(new Consumable(cake));
     b.addInventory(new Equipment(UltimateInvinciblePowerBoots));
 
-    cout<<"3"<<endl;
+    cout<<"\n3"<<endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     cout<<"2"<<endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    cout<<"1"<<endl;
+    cout<<"1\n"<<endl;
     cout << "==================== [ STAGE 1 ] ====================" << endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
     PrintOutImage(slimeImage);
@@ -135,7 +136,7 @@ void PrintOutImage(ifstream &image){
     string content;
     if(image.is_open()){
         while(getline(image,content)){
-            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
             cout<< content <<endl;
         }
     }
@@ -213,7 +214,9 @@ bool arena(Monster& m,Player& p,Backpack& b){
         std::this_thread::sleep_for(std::chrono::seconds(1));
         m.showInfo();
         cout <<"====================="<<endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
         cout <<"1. Normal Attack \n" <<"2. Skill\n"<<"3. Use Item\n"<<endl;
+        cout <<"Enter your choice: ";
         cin >> choice;
         switch (choice)
         {
@@ -252,12 +255,15 @@ bool arena(Monster& m,Player& p,Backpack& b){
             switch (skillchoice)
             {
             case 1:
+                cout <<"\n";
                 if (fireball.getcurrentcd()>0){
                     cout<<"Skills in cooldown!"<<endl;
                     continue;
                 }
 
                 fireball.setcooldown();
+                cout <<"【"<<p.getName()<<"】";
+                fireball.use();
                 p.costmp(20);
                 if (PlayerFaster(m,p)){
                     if(PlayerAttack(m,p,fireball.getDamage())){
@@ -280,12 +286,15 @@ bool arena(Monster& m,Player& p,Backpack& b){
                 }
                 break;
             case 2:
+                cout <<"\n";
                 if (blackflame.getcurrentcd()>0){
                     cout<<"Skills in cooldown!"<<endl;
                     continue;
                 }
 
                 blackflame.setcooldown();
+                cout <<"【"<<p.getName()<<"】";
+                blackflame.use();
                 p.costmp(25);
                 if (PlayerFaster(m,p)){
                     if(PlayerAttack(m,p,blackflame.getDamage())){
@@ -306,12 +315,15 @@ bool arena(Monster& m,Player& p,Backpack& b){
                 }
                 break;
             case 3:
+                cout <<"\n";
                 if (lighting.getcurrentcd()>0){
                     cout<<"Skills in cooldown!"<<endl;
                     continue;
                 }
 
                 lighting.setcooldown();
+                cout <<"【"<<p.getName()<<"】";
+                lighting.use();
                 p.costmp(20);
                 if (PlayerFaster(m,p)){
                     if(PlayerAttack(m,p,lighting.getDamage())){

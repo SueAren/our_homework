@@ -29,10 +29,10 @@ class Player{
             if (hp < 0) hp = 0; 
         }
 
-        void showInfo() const {
-            cout << "Player Name: " << name << " \t| Hp: " << hp << " \t| Atk: " << attackPower << " \t| Spd: " << speed <<" \t| Gold: " << gold << endl;
+        virtual void showInfo()  {
+            cout << "Player Name: " << name << " \t\t| Hp: " << hp << " \t| Atk: " << attackPower << " \t| Spd: " << speed << " \t| MP: " << mp <<" \t| Gold: " << gold << endl;
         }
-
+        
         bool isAlive() const { return hp > 0; }
 
         void addgold(int g){gold += g;}
