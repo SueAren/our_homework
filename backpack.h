@@ -49,7 +49,7 @@ class Backpack{
             return *inventory[location];
         }
 
-        void showBackpackInfo(){
+        void showBackpackInfo(int playerGold){
             cout<<"================================================\n"
                 <<"Inventory:\n";
             cout<<"current gold:"<<getGold()<<"\n";
