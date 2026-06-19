@@ -31,6 +31,8 @@ class Item {
         bool isAvailable() const { return quantity > 0; }
         double getEffectValue() const { return effectValue; }
         string getName() const { return name;}
+        string getType() const { return type;}
+        int getQuantity() const { return quantity;}
 
     protected:
         string name;
